@@ -1,11 +1,22 @@
-var rl, readline = require('readline');
+var rl, readline = require('readline'); // readline module reads i/o stream line by line
 
+/**
+ * Creates an interface that reads i/o stream
+ * @param stdin - an input from terminal
+ * @param stdout - an output to terminal
+ * @return rl - the i/o stream
+ */
 var get_interface = function(stdin, stdout) {
   if (!rl) rl = readline.createInterface(stdin, stdout);
   else stdin.resume(); // interface exists
   return rl;
 }
 
+/**
+ * Confirms the user's input is correct
+ * @param message - 
+ * @param callback - 
+ */
 var confirm = exports.confirm = function(message, callback) {
 
   var question = {
@@ -23,6 +34,10 @@ var confirm = exports.confirm = function(message, callback) {
 
 };
 
+/**
+ * 
+ * 
+ */
 var get = exports.get = function(options, callback) {
 
   if (!callback) return; // no point in continuing
@@ -46,14 +61,20 @@ var get = exports.get = function(options, callback) {
     rl.close();
     rl = null;
   }
-
+  
+  /**
+   * 
+   */
   var get_default = function(key, partial_answers) {
     if (typeof options[key] == 'object')
       return typeof options[key].default == 'function' ? options[key].default(partial_answers) : options[key].default;
     else
       return options[key];
   }
-
+  
+  /**
+   * 
+   */
   var guess_type = function(reply) {
 
     if (reply.trim() == '')
@@ -67,7 +88,10 @@ var get = exports.get = function(options, callback) {
 
     return reply;
   }
-
+  
+  /**
+   * 
+   */
   var validate = function(key, answer) {
 
     if (typeof answer == 'undefined')
@@ -84,16 +108,21 @@ var get = exports.get = function(options, callback) {
     return true;
 
   }
-
+  /**
+   * 
+   */
   var show_error = function(key) {
     var str = options[key].error ? options[key].error : 'Invalid value.';
 
     if (options[key].options)
         str += ' (options are ' + options[key].options.join(', ') + ')';
 
-    stdout.write("\033[31m" + str + "\033[0m" + "\n");
+    stdout.write("0x33[31m" + str + "0x33[0m" + "\n");
   }
-
+  
+  /**
+   * 
+   */
   var show_message = function(key) {
     var msg = '';
 
@@ -103,15 +132,21 @@ var get = exports.get = function(options, callback) {
     if (options[key].options)
       msg += '(options are ' + options[key].options.join(', ') + ')';
 
-    if (msg != '') stdout.write("\033[1m" + msg + "\033[0m\n");
+    if (msg != '') stdout.write("0x33[1m" + msg + "0x33[0m\n");
   }
-
+  
+  /**
+   * 
+   */
   // taken from commander lib
   var wait_for_password = function(prompt, callback) {
 
     var buf = '',
         mask = '*';
-
+        
+    /**
+     * 
+     */
     var keypress_callback = function(c, key) {
 
       if (key && (key.name == 'enter' || key.name == 'return')) {
@@ -128,7 +163,7 @@ var get = exports.get = function(options, callback) {
         buf = buf.substr(0, buf.length-1);
         var masked = '';
         for (i = 0; i < buf.length; i++) { masked += mask; }
-        stdout.write('\r\033[2K' + prompt + masked);
+        stdout.write('\r0x33[2K' + prompt + masked);
       } else {
         stdout.write(mask);
         buf += c;
@@ -138,7 +173,10 @@ var get = exports.get = function(options, callback) {
 
     stdin.on('keypress', keypress_callback);
   }
-
+  
+  /**
+   * 
+   */
   var check_reply = function(index, curr_key, fallback, reply) {
     var answer = guess_type(reply);
     var return_answer = (typeof answer != 'undefined') ? answer : fallback;
@@ -148,7 +186,10 @@ var get = exports.get = function(options, callback) {
     else
       show_error(curr_key) || next_question(index); // repeats current
   }
-
+  
+  /**
+   * 
+   */
   var dependencies_met = function(conds) {
     for (var key in conds) {
       var cond = conds[key];
@@ -166,7 +207,10 @@ var get = exports.get = function(options, callback) {
 
     return true;
   }
-
+  
+  /**
+   * 
+   */
   var next_question = function(index, prev_key, answer) {
     if (prev_key) answers[prev_key] = answer;
 
@@ -212,7 +256,8 @@ var get = exports.get = function(options, callback) {
 
   rl = get_interface(stdin, stdout);
   next_question(0);
-
+  
+  //Ends the prompt and outputs the number of answers given.
   rl.on('close', function() {
     close_prompt(); // just in case
 
