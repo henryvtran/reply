@@ -19,4 +19,6 @@ The below questions should be answered (in detail!) regarding your submission.
 
 
 ##### 5. Did you encounter any problems in this assignment we should warn students about in the future? How can we make the assignment better? #####
-> The main problem I encountered with this assignment was jsdoc, "ERROR: Unable to parse \reply\index.js: Line 100: Octal literals are not allowed in strict mode" taking most of my time.
+> The main problem I encountered with this assignment was jsdoc, "ERROR: Unable to parse \reply\index.js: Line 100: Octal literals are not allowed in strict mode" taking most of my time. The assignment was pretty simple and helpful learning. 
+
+##### NOTE: Octal literals removed therefore questions output are messed up in examples however it still works fine.
