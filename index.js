@@ -126,7 +126,7 @@ var get = exports.get = function(options, callback) {
     if (options[key].options)
         str += ' (options are ' + options[key].options.join(', ') + ')';
 
-    stdout.write("0x33[31m" + str + "0x33[0m" + "\n");
+    stdout.write("0x33[31m " + str + "0x33[0m" + "\n");
   }
   
   /**
@@ -142,7 +142,7 @@ var get = exports.get = function(options, callback) {
     if (options[key].options)
       msg += '(options are ' + options[key].options.join(', ') + ')';
 
-    if (msg != '') stdout.write("0x33[1m" + msg + "0x33[0m\n");
+    if (msg != '') stdout.write("0x33[1m " + msg + "0x33[0m\n");
   }
   
   /**
@@ -157,7 +157,7 @@ var get = exports.get = function(options, callback) {
         mask = '*';
         
     /**
-     * Looks at the input keypress 
+     * Looks at the input keypress (cntrl+c closes js) (enter/return submits input)
      * @param c - 
      * @param key - key index of options array 
      */
