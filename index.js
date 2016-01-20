@@ -14,8 +14,8 @@ var get_interface = function(stdin, stdout) {
 
 /**
  * Confirms the user's input is correct
- * @param message - 
- * @param callback - 
+ * @param message - confirmation message
+ * @param callback - function called after confirmation 
  */
 var confirm = exports.confirm = function(message, callback) {
 
@@ -35,8 +35,9 @@ var confirm = exports.confirm = function(message, callback) {
 };
 
 /**
- * 
- * 
+ * Prompts questions for information
+ * @param options - array of expected inputs from user
+ * @param callback - function called after get 
  */
 var get = exports.get = function(options, callback) {
 
@@ -63,7 +64,10 @@ var get = exports.get = function(options, callback) {
   }
   
   /**
-   * 
+   * Gets the default option 
+   * @param key - key index of array
+   * @param partial_answers - partial input from user
+   * @returns options[key] - default options information from the input key
    */
   var get_default = function(key, partial_answers) {
     if (typeof options[key] == 'object')
@@ -73,7 +77,8 @@ var get = exports.get = function(options, callback) {
   }
   
   /**
-   * 
+   * Gets the type of answer by reply true/yes | false/no
+   * @param reply - user input
    */
   var guess_type = function(reply) {
 
@@ -90,7 +95,10 @@ var get = exports.get = function(options, callback) {
   }
   
   /**
-   * 
+   * Validates the regex of options therefore returning true
+   * @param key - key index of options array
+   * @param answer - user input
+   * @returns {boolean} - true or false depending on proper input
    */
   var validate = function(key, answer) {
 
@@ -109,7 +117,8 @@ var get = exports.get = function(options, callback) {
 
   }
   /**
-   * 
+   * Shows the error for the given input
+   * @param key - key index of options array
    */
   var show_error = function(key) {
     var str = options[key].error ? options[key].error : 'Invalid value.';
@@ -121,7 +130,8 @@ var get = exports.get = function(options, callback) {
   }
   
   /**
-   * 
+   * Shows the message for the given input
+   * @param key - key index of options array
    */
   var show_message = function(key) {
     var msg = '';
@@ -136,7 +146,9 @@ var get = exports.get = function(options, callback) {
   }
   
   /**
-   * 
+   * Patiently waits for user password
+   * @param prompt - asks question for user input
+   * @param callback - function called after waiting
    */
   // taken from commander lib
   var wait_for_password = function(prompt, callback) {
@@ -145,7 +157,9 @@ var get = exports.get = function(options, callback) {
         mask = '*';
         
     /**
-     * 
+     * Looks at the input keypress 
+     * @param c - 
+     * @param key - key index of options array 
      */
     var keypress_callback = function(c, key) {
 
@@ -175,7 +189,11 @@ var get = exports.get = function(options, callback) {
   }
   
   /**
-   * 
+   * Inspect the input reply and validates
+   * @param index - an index
+   * @param curr_key - current key index of option array
+   * @param fallback - a fallback to default option
+   * @reply - user input
    */
   var check_reply = function(index, curr_key, fallback, reply) {
     var answer = guess_type(reply);
@@ -188,7 +206,9 @@ var get = exports.get = function(options, callback) {
   }
   
   /**
-   * 
+   * Checks if met conditions 
+   * @param conds - conditions required
+   * @returns {boolean} - depending on met conditions
    */
   var dependencies_met = function(conds) {
     for (var key in conds) {
@@ -209,7 +229,10 @@ var get = exports.get = function(options, callback) {
   }
   
   /**
-   * 
+   * Goes on to the next questions until termination
+   * @param index - an index
+   * @param prev_key - the previous key index of options
+   * @param answer - user input
    */
   var next_question = function(index, prev_key, answer) {
     if (prev_key) answers[prev_key] = answer;
